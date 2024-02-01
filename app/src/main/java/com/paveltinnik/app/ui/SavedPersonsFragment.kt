@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.paveltinnik.app.R
 import com.paveltinnik.app.adapter.PersonAdapter
 import com.paveltinnik.app.databinding.FragmentMainBinding
@@ -46,6 +50,39 @@ class SavedPersonsFragment : Fragment() {
                 bundle
             )
         }
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val person = personAdapter.differ.currentList[position]
+                viewModel.deletePerson(person)
+                Snackbar.make(view, "Succesfully deleted person", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo") {
+                        viewModel.savePerson(person)
+                    }
+                    show()
+                }
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.rvSavedPersons)
+        }
+
+        viewModel.getSavedPersons().observe(viewLifecycleOwner, Observer {persons ->
+            personAdapter.differ.submitList(persons)
+        })
     }
 
     private fun setupRecyclerView() {

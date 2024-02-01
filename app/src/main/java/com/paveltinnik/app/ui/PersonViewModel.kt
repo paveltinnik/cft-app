@@ -16,6 +16,7 @@ class PersonViewModel(
 
     val persons: MutableLiveData<Resource<PersonsResponse>> = MutableLiveData()
     var pageNumber = 1
+    var personResponse: PersonsResponse? = null
 
     init {
         getPersons()
@@ -30,7 +31,15 @@ class PersonViewModel(
     private fun handlePersonsResponse(response: Response<PersonsResponse>): Resource<PersonsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
+                pageNumber++
+                if (personResponse == null) {
+                    personResponse = resultResponse
+                } else {
+                    val oldPersons = personResponse?.results
+                    val newPersons = resultResponse.results
+                    oldPersons?.addAll(newPersons)
+                }
+                return Resource.Success(personResponse ?: resultResponse)
             }
         }
         return Resource.Error(response.message())

@@ -25,8 +25,8 @@ data class Person (
     @SerializedName("phone"      ) var phone      : String?     = null,
     @SerializedName("cell"       ) var cell       : String?     = null,
     @PrimaryKey
-    @Embedded
     @NonNull
+    @Embedded
     @SerializedName("id"         ) var id         : Id         = Id(),
     @Embedded
     @SerializedName("picture"    ) var picture    : Picture?    = Picture(),
