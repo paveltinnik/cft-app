@@ -14,7 +14,6 @@ data class Person (
     @SerializedName("gender"     ) var gender     : String?     = null,
     @SerializedName("name"       ) var name       : Name?       = Name(),
     @Embedded
-    @Transient
     @SerializedName("location"   ) var location   : Location?   = Location(),
     @SerializedName("email"      ) var email      : String?     = null,
     @Embedded

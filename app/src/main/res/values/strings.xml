@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">app</string>
-    <string name="full_name">%s %s</string>
+    <string name="full_name">%1s %1s</string>
+    <string name="person_address">%1s %1s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="address">Address:</string>
+    <string name="phone">Phone:</string>
+    <string name="phone_number">+7 999 999 99 99</string>
 </resources>

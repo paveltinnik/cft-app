@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.paveltinnik.app.R
 import com.paveltinnik.app.data.db.PersonDatabase
 import com.paveltinnik.app.databinding.ActivityMainBinding
@@ -25,8 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val personRepository = PersonRepository(PersonDatabase(this))
         val viewModelProviderFactory = PersonViewModelProviderFactory(personRepository)
-        viewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(PersonViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(PersonViewModel::class.java)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.personsNavHostFragment) as NavHostFragment
         binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)

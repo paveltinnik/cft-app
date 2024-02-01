@@ -7,13 +7,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class PersonsResponse (
-
     @SerializedName("results" ) var results : ArrayList<Person> = arrayListOf(),
     @SerializedName("info"    ) var info    : Info?              = Info()
-
 )
-
-
 
 data class Name (
 
@@ -86,19 +82,32 @@ data class Registered (
 
 data class Id (
 
-    @NonNull
-    @SerializedName("name"  ) var idName  : String = "",
-    @NonNull
-    @SerializedName("value" ) var value : String = ""
+    @SerializedName("name"  ) var idName  : String? = "",
+    @SerializedName("value" ) var value : String? = ""
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-)
+        other as Id
+
+        if (idName != other.idName) return false
+        if (value != other.value) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = idName?.hashCode() ?: 0
+        result = 31 * result + (value?.hashCode() ?: 0)
+        return result
+    }
+}
 
 data class Picture (
-
     @SerializedName("large"     ) var large     : String? = null,
     @SerializedName("medium"    ) var medium    : String? = null,
     @SerializedName("thumbnail" ) var thumbnail : String? = null
-
 )
 
 data class Info (

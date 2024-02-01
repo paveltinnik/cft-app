@@ -18,7 +18,11 @@
         android:id="@+id/personFragment"
         android:name="com.paveltinnik.app.ui.PersonFragment"
         android:label="fragment_person"
-        tools:layout="@layout/fragment_person" />
+        tools:layout="@layout/fragment_person" >
+        <argument
+            android:name="person"
+            app:argType="com.paveltinnik.app.domain.entity.Person" />
+    </fragment>
     <fragment
         android:id="@+id/savedPersonsFragment"
         android:name="com.paveltinnik.app.ui.SavedPersonsFragment"

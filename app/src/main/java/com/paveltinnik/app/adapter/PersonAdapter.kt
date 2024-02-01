@@ -1,5 +1,6 @@
 package com.paveltinnik.app.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,13 +45,18 @@ class PersonAdapter : RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
-        val person = differ.currentList[position]
+        try {
+            val person = differ.currentList[position]
 
-        holder.itemView.findViewById<TextView>(R.id.tv_name).text = person.name?.first
-        holder.itemView.findViewById<TextView>(R.id.tv_email).text = person.email
-        Glide.with(holder.itemView).load(person.picture?.medium).into(holder.itemView.findViewById(R.id.iv_photo))
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.let { it(person) }
+            holder.itemView.findViewById<TextView>(R.id.tv_name).text = person.name?.first
+            holder.itemView.findViewById<TextView>(R.id.tv_email).text = person.email
+            Glide.with(holder.itemView).load(person.picture?.medium).into(holder.itemView.findViewById(R.id.iv_photo))
+
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.let { it(person) }
+            }
+        } catch (e: Exception) {
+            Log.e("Error in recycler view", e.toString())
         }
     }
 

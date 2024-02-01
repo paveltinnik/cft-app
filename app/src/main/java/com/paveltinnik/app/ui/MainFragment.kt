@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paveltinnik.app.R
 import com.paveltinnik.app.adapter.PersonAdapter
 import com.paveltinnik.app.databinding.FragmentMainBinding
 import com.paveltinnik.app.util.Resource
@@ -35,9 +37,21 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = (activity as MainActivity).viewModel
 
         setupRecyclerView()
+
+        personAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("person", it)
+            }
+            findNavController().navigate(
+                R.id.action_mainFragment_to_personFragment,
+                bundle
+            )
+        }
+
         viewModel.persons.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
