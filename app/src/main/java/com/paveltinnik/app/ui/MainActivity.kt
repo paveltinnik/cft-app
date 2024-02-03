@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         val personRepository = PersonRepository(PersonDatabase(this))
-        val viewModelProviderFactory = PersonViewModelProviderFactory(personRepository)
+        val viewModelProviderFactory = PersonViewModelProviderFactory(application, personRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(PersonViewModel::class.java)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.personsNavHostFragment) as NavHostFragment
